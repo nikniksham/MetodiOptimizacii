@@ -30,10 +30,10 @@ def quadratic_approximation_method(x1):
         chert = 1/2 * ((x2**2 - x3**2)*f1 + (x3**2 - x1**2)*f2 + (x1**2 - x2**2)*f3)/znam
         fchert = f(chert)
 
+        # print(x1, x2, x3, chert)
         if abs((fmin - fchert) / fchert) < k:
             return chert
 
-        print(x1, x2, x3, chert)
         if x1 <= chert <= x3:
             if chert < x2:
                 x3, f3 = x2, f2
