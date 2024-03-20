@@ -14,8 +14,8 @@ def d2(x):
 
 
 def method_polovinnogo_deleniya(a, b, k):
-    while (b-a) > k:
-        x1, x2 = (a + b)/2 - k * (b-a)/2, (a + b)/2 + k * (b-a)/2
+    while (b-a) > k * 2:
+        x1, x2 = (a + b - k)/2, (a + b + k)/2
         y1, y2 = f(x1), f(x2)
         if y1 > y2:
             a = x1
@@ -24,10 +24,11 @@ def method_polovinnogo_deleniya(a, b, k):
     return (b+a)/2
 
 
-def method_zolotogo_secheniay(a, b, k):
+def method_zolotogo_secheniya(a, b, k):
     x1, x2 = b - (b-a)/1.618, a + (b-a)/1.618
     y1, y2 = f(x1), f(x2)
     while (b-a) > k:
+        print(a, x1, x2, b)
         if y1 > y2:
             a, x1, y1 = x1, x2, y2
             x2 = a + (b-a)/1.618
@@ -41,7 +42,7 @@ def method_zolotogo_secheniay(a, b, k):
 
 def method_hord(a, b, k):
     while True:
-        x = a - d(a) / (d(a) - d(b)) * (a - b)
+        x = a - d(a) / (d(b) - d(a)) * (b - a)
         dx = d(x)
         if dx > 0:
             b = x
@@ -64,7 +65,7 @@ b = pi/4
 
 znach1 = method_polovinnogo_deleniya(a, b, k)
 print(f"Метод половинного деления:\nf({znach1}) = {f(znach1)}")
-znach2 = method_zolotogo_secheniay(a, b, k)
+znach2 = method_zolotogo_secheniya(a, b, k)
 print(f"Метод золотого сечения:\nf({znach2}) = {f(znach2)}")
 znach3 = method_hord(a, b, k)
 print(f"Метод хорд:\nf({znach3}) = {f(znach3)}")
