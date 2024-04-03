@@ -68,14 +68,11 @@ def method_steepest_descent(f_str, m_prev, eps, logs=False):
         if logs:
             print(expr_h)
 
-        last_d, d = expr_h, expr_h
-        while "h" in d:
-            last_d = d
-            d = str(diff(d, "h"))
+        d = str(diff(expr_h, "h"))
         if logs:
-            print(f"Уравнение, из которого выражаем h: {last_d}")
+            print(f"Уравнение, из которого выражаем h: {d}")
 
-        h = solve(sympify(last_d), "h")[0]
+        h = solve(sympify(d), "h")[0]
         # h = solve(sympify('536*h-166.75'), "h")[0]
         if logs:
             print(f"h = {h}")
@@ -92,7 +89,7 @@ def method_steepest_descent(f_str, m_prev, eps, logs=False):
 
 
 if __name__ == '__main__':
-    first = True
+    first = False
     second = True
     if first:
         m0 = (-0.7, -1)
@@ -108,14 +105,14 @@ if __name__ == '__main__':
         print("\n\n=======================================")
         print("=======================================")
         print("=======================================\n\n")
-        # f_str = "x1**2 + x2**2 + 1.5*x1*x2"
+        f_str = "x1**2 + x2**2 + 1.5*x1*x2"
         # f_str = "(x1**3 - 1)**4 + (x2 - x1)**2 - 2"
         # f_str = "4 * x1 ** 2 + 3 * x2 ** 2 + 16 * x1 - 4 * x2"
         # f_str = "x1**4 + x2**4 - 4*x1*x2"
-        f_str = "4*x1**2 + 3*x2**2 + 16*x1 - 4*x2"
+        # f_str = "4*x1**2 + 3*x2**2 + 16*x1 - 4*x2"
 
-        # m0 = (0.7, 2)
-        m0 = (-0.7, -1)
+        m0 = (0, 1)
+        # m0 = (-0.7, -1)
         eps = 0.05
         method_steepest_descent(f_str, m0, eps, True)
 
