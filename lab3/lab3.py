@@ -89,7 +89,7 @@ def method_steepest_descent(f_str, m_prev, eps, logs=False):
 
 
 if __name__ == '__main__':
-    first = False
+    first = True
     second = True
     if first:
         m0 = (-0.7, -1)
