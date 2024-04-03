@@ -39,15 +39,18 @@ def quadratic_approximation_method(x1):
             return chert
 
         if x1 <= chert <= x3:
+            # if fmin < fchert:
+            #     chert = xmin
             if chert < x2:
                 x3, f3 = x2, f2
             else:
                 x1, f1 = x2, f2
             x2, f2 = chert, fchert
         else:
-            print(123)
+            if fmin < fchert:
+                chert = xmin
             return quadratic_approximation_method(chert)
 
 
-res = quadratic_approximation_method(0)
+res = quadratic_approximation_method(1)
 print(res, f(res))

@@ -1,55 +1,39 @@
-from math import log, sin, e, pi
-
-k = 0.0001
-delta_x = 1
+x, y, h = symbols('x y h')
 
 
-def f(x):
-    return log(x**2 + 1, e) - sin(x)
+def f(x, y):
+    return x ** 2 + y ** 2 + 2 * x - y
 
 
-def quadratic_approximation_method(x1, x2=None, x3=None):
-    f1 = f(x1)
-    if x2 is None:
-        x2 = x1 + delta_x
-        f2 = f(x2)
-        if f1 > f2:
-            x3 = x1 + delta_x * 2
+def gradient1(x_, y_):
+    return [2 * x_ + 2, 2 * y_ - 1]
+
+
+def gradient_module1(x_1, y_1):
+    dx, dy = gradient1(x_1, y_1)
+    return sqrt(dx ** 2 + dy ** 2).evalf()
+
+
+def steepest_descent_method(x_0, y_0, eps):
+    iteration_count = 0
+    d = gradient_module1(x_0, y_0)
+    while (d.evalf() > eps):
+        grad_x, grad_y = gradient1(x_0, y_0)
+        x_new = x_0 - h * grad_x
+        y_new = y_0 - h * grad_y
+        f_new = f(x_new, y_new)
+        df_new_h = diff(f_new, h)
+        h_solution = solve(df_new_h, h)
+        d = gradient_module1(x_0, y_0)
+        if h_solution:
+            h_new = h_solution[0].evalf()
+            x_0 -= h_new * grad_x
+            y_0 -= h_new * grad_y
+            iteration_count += 1
         else:
-            x3 = x1 - delta_x
-        f3 = f(x3)
-    else:
-        f2, f3 = f(x2), f(x3)
-    fmin, xmin = min(f1, f2, f3), x1
-    if fmin == f2:
-        xmin = x2
-    elif fmin == f3:
-        xmin = x3
-
-    if (x2 - x3)*f1 + (x3 - x1)*f2 + (x1 - x2)*f3 == 0:
-        print(1)
-        return quadratic_approximation_method(xmin)
-    chert = 1/2 * ((x2**2 - x3**2)*f1 + (x3**2 - x1**2)*f2 + (x1**2 - x2**2)*f3)/((x2 - x3)*f1 + (x3 - x1)*f2 + (x1 - x2)*f3)
-    fchert = f(chert)
-
-    cond_1, cond_2 = abs((fmin - fchert) / fchert) < k, abs((xmin - chert) / chert) > k
-    if cond_1 and cond_2:
-        return chert
-    elif cond_1 or cond_2:
-        if x1 <= chert <= x3 or x1 >= chert >= x3:
-            return quadratic_approximation_method(x1, chert, x3)
-        return quadratic_approximation_method(chert)
+            print("Решение для h не найдено.")
+            break
+    print("x = " + str(x_0) + " y = " + str(y_0) + " Количество итераций " + str(iteration_count))
 
 
-res = quadratic_approximation_method(pi/8)
-print(res, f(res))
-# x1, x2, x3 = 0, pi/8, pi/4
-# f1, f2, f3 = f(x1), f(x2), f(x3)
-# print(f"f1 = f({x1}) = {f1}")
-# print(f"f2 = f({x2}) = {f2}")
-# print(f"f3 = f({x3}) = {f3}")
-# fmin = min(f1, f2, f3)
-# print(f"fmin = {fmin}")
-# xmin = 1/2 * ((x2**2 - x3**2)*f1 + (x3**2 - x1**2)*f2 + (x1**2 - x2**2)*f3)/((x2 - x3)*f1 + (x3 - x1)*f2 + (x1 - x2)*f3)
-# fxmin = f(xmin)
-# print(f"xmin = {xmin}, f(xmin) = {fxmin}")
+steepest_descent_method(0, 0, 0.0001)
