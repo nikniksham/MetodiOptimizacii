@@ -29,8 +29,12 @@ def quadratic_approximation_method(x1):
 
         chert = 1/2 * ((x2**2 - x3**2)*f1 + (x3**2 - x1**2)*f2 + (x1**2 - x2**2)*f3)/znam
         fchert = f(chert)
-
-        # print(x1, x2, x3, chert)
+        print(f"f1 = f({x1}) = {f1}")
+        print(f"f2 = f({x2}) = {f2}")
+        print(f"f3 = f({x3}) = {f3}")
+        print(f"chert = {chert}, f({chert}) = {fchert}")
+        print(f"разность = {abs((fmin - fchert) / fchert)}")
+        print()
         if abs((fmin - fchert) / fchert) < k:
             return chert
 
